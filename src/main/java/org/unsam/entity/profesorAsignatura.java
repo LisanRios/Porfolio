@@ -44,14 +44,14 @@ public class profesorAsignatura {
     }
 
     public void setPersonaId(Long personaId) {
-        
+        this.personaId = personaId;
     }
 
     public void setAsignaturaId(Long asignaturaId) {
-        
+        this.asignaturaId = asignaturaId;
     }
 
     public Long getProfesorId() {
-        
+        return this.personaId;  // Retorna personaId ya que representa el ID del profesor
     }
 }
