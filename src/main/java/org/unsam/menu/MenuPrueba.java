@@ -1,27 +1,32 @@
 package org.unsam.menu;
 
 import java.util.Scanner;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.unsam.service.personaService;
-import org.unsam.service.aulaService;
-import org.unsam.service.horarioService;
-import org.unsam.entity.persona;
-import org.unsam.entity.aula;
-import org.unsam.entity.horario;
+import org.unsam.service.*;
+import org.unsam.entity.*;
 
 @Component
 public class MenuPrueba implements CommandLineRunner {
 
     @Autowired
     private personaService personaService;
-
     @Autowired
     private aulaService aulaService;
-
     @Autowired
     private horarioService horarioService;
+    @Autowired
+    private asignaturaService asignaturaService;
+    @Autowired
+    private tipoAulaService tipoAulaService;
+    @Autowired
+    private tipoPermisoService tipoPermisoService;
+    @Autowired
+    private carreraService carreraService;
+    @Autowired
+    private profesorAsignaturaService profesorAsignaturaService;
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -30,12 +35,15 @@ public class MenuPrueba implements CommandLineRunner {
         boolean salir = false;
         while (!salir) {
             System.out.println("\n--- Menú de Prueba ---");
-            System.out.println("1. Listar Personas");
-            System.out.println("2. Agregar Persona");
-            System.out.println("3. Listar Aulas");
-            System.out.println("4. Agregar Aula");
-            System.out.println("5. Listar Horarios");
-            System.out.println("6. Agregar Horario");
+            System.out.println("1. Gestión de Personas");
+            System.out.println("2. Gestión de Aulas");
+            System.out.println("3. Gestión de Horarios");
+            System.out.println("4. Gestión de Asignaturas");
+            System.out.println("5. Gestión de Tipos de Aula");
+            System.out.println("6. Gestión de Tipos de Permiso");
+            System.out.println("7. Gestión de Carreras");
+            System.out.println("8. Ver Aulas Ocupadas");
+            System.out.println("9. Ver Profesores y sus Asignaturas");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -44,22 +52,31 @@ public class MenuPrueba implements CommandLineRunner {
 
             switch (opcion) {
                 case 1:
-                    listarPersonas();
+                    menuPersonas();
                     break;
                 case 2:
-                    agregarPersona();
+                    menuAulas();
                     break;
                 case 3:
-                    listarAulas();
+                    menuHorarios();
                     break;
                 case 4:
-                    agregarAula();
+                    menuAsignaturas();
                     break;
                 case 5:
-                    listarHorarios();
+                    menuTiposAula();
                     break;
                 case 6:
-                    agregarHorario();
+                    menuTiposPermiso();
+                    break;
+                case 7:
+                    menuCarreras();
+                    break;
+                case 8:
+                    verAulasOcupadas();
+                    break;
+                case 9:
+                    verProfesoresAsignaturas();
                     break;
                 case 0:
                     salir = true;
@@ -69,6 +86,139 @@ public class MenuPrueba implements CommandLineRunner {
             }
         }
         System.out.println("¡Hasta luego!");
+    }
+
+    private void menuPersonas() {
+        System.out.println("\n--- Gestión de Personas ---");
+        System.out.println("1. Listar Personas");
+        System.out.println("2. Agregar Persona");
+        System.out.println("0. Volver");
+        
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (opcion) {
+            case 1:
+                listarPersonas();
+                break;
+            case 2:
+                agregarPersona();
+                break;
+        }
+    }
+
+    private void menuAulas() {
+        System.out.println("\n--- Gestión de Aulas ---");
+        System.out.println("1. Listar Aulas");
+        System.out.println("2. Agregar Aula");
+        System.out.println("0. Volver");
+        
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (opcion) {
+            case 1:
+                listarAulas();
+                break;
+            case 2:
+                agregarAula();
+                break;
+        }
+    }
+
+    private void menuHorarios() {
+        System.out.println("\n--- Gestión de Horarios ---");
+        System.out.println("1. Listar Horarios");
+        System.out.println("2. Agregar Horario");
+        System.out.println("0. Volver");
+        
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (opcion) {
+            case 1:
+                listarHorarios();
+                break;
+            case 2:
+                agregarHorario();
+                break;
+        }
+    }
+
+    private void menuAsignaturas() {
+        System.out.println("\n--- Gestión de Asignaturas ---");
+        System.out.println("1. Listar Asignaturas");
+        System.out.println("2. Agregar Asignatura");
+        System.out.println("0. Volver");
+        
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (opcion) {
+            case 1:
+                listarAsignaturas();
+                break;
+            case 2:
+                agregarAsignatura();
+                break;
+        }
+    }
+
+    private void menuTiposAula() {
+        System.out.println("\n--- Gestión de Tipos de Aula ---");
+        System.out.println("1. Listar Tipos de Aula");
+        System.out.println("2. Agregar Tipo de Aula");
+        System.out.println("0. Volver");
+        
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (opcion) {
+            case 1:
+                listarTiposAula();
+                break;
+            case 2:
+                agregarTipoAula();
+                break;
+        }
+    }
+
+    private void menuTiposPermiso() {
+        System.out.println("\n--- Gestión de Tipos de Permiso ---");
+        System.out.println("1. Listar Tipos de Permiso");
+        System.out.println("2. Agregar Tipo de Permiso");
+        System.out.println("0. Volver");
+        
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (opcion) {
+            case 1:
+                listarTiposPermiso();
+                break;
+            case 2:
+                agregarTipoPermiso();
+                break;
+        }
+    }
+
+    private void menuCarreras() {
+        System.out.println("\n--- Gestión de Carreras ---");
+        System.out.println("1. Listar Carreras");
+        System.out.println("2. Agregar Carrera");
+        System.out.println("0. Volver");
+        
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        
+        switch (opcion) {
+            case 1:
+                listarCarreras();
+                break;
+            case 2:
+                agregarCarrera();
+                break;
+        }
     }
 
     private void listarPersonas() {
@@ -82,15 +232,12 @@ public class MenuPrueba implements CommandLineRunner {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
         System.out.print("Apellido: ");
-        String apellido = scanner.nextLine();
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
+        String apellido = scanner.next ();
+        scanner.nextLine(); // Consumir el salto de línea
 
         persona nuevaPersona = new persona();
         nuevaPersona.setNombre(nombre);
         nuevaPersona.setApellido(apellido);
-        nuevaPersona.setEmail(email);
-
         personaService.guardarPersona(nuevaPersona);
         System.out.println("Persona agregada con éxito.");
     }
@@ -105,13 +252,9 @@ public class MenuPrueba implements CommandLineRunner {
         System.out.println("\nAgregar nueva Aula:");
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
-        System.out.print("ID del Tipo de Aula: ");
-        Long tipoAulaId = scanner.nextLong();
 
         aula nuevaAula = new aula();
         nuevaAula.setNombre(nombre);
-        nuevaAula.setTipoAulaId(tipoAulaId);
-
         aulaService.guardarAula(nuevaAula);
         System.out.println("Aula agregada con éxito.");
     }
@@ -119,30 +262,119 @@ public class MenuPrueba implements CommandLineRunner {
     private void listarHorarios() {
         System.out.println("\nListado de Horarios:");
         horarioService.listarHorarios().forEach(h -> 
-            System.out.println(h.getId() + ": " + h.getDia() + " " + h.getHoraInicio() + "-" + h.getHoraFin()));
+            System.out.println(h.getId() + ": " + h.getDia() + " - " + h.getHoraInicio() + " - " + h.getHoraFin()));
     }
 
     private void agregarHorario() {
         System.out.println("\nAgregar nuevo Horario:");
-        System.out.print("Día (ej. Lunes): ");
+        System.out.print("Día: ");
         String dia = scanner.nextLine();
-        System.out.print("Hora de inicio (HH:MM): ");
+        System.out.print("Hora Inicio: ");
         String horaInicio = scanner.nextLine();
-        System.out.print("Hora de fin (HH:MM): ");
+        System.out.print("Hora Fin: ");
         String horaFin = scanner.nextLine();
-        System.out.print("ID del Aula: ");
-        Long aulaId = scanner.nextLong();
-        System.out.print("ID de la Asignatura: ");
-        Long asignaturaId = scanner.nextLong();
 
         horario nuevoHorario = new horario();
         nuevoHorario.setDia(dia);
-        nuevoHorario.setHoraInicio(java.time.LocalTime.parse(horaInicio));
-        nuevoHorario.setHoraFin(java.time.LocalTime.parse(horaFin));
-        nuevoHorario.setAulaId(aulaId);
-        nuevoHorario.setAsignaturaId(asignaturaId);
-
+        nuevoHorario.setHoraInicio(horaInicio);
+        nuevoHorario.setHoraFin(horaFin);
         horarioService.guardarHorario(nuevoHorario);
         System.out.println("Horario agregado con éxito.");
+    }
+
+    private void listarAsignaturas() {
+        System.out.println("\nListado de Asignaturas:");
+        asignaturaService.listarAsignaturas().forEach(a -> 
+            System.out.println(a.getId() + ": " + a.getNombre() + " (" + a.getCodigo() + ")"));
+    }
+
+    private void agregarAsignatura() {
+        System.out.println("\nAgregar nueva Asignatura:");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Código: ");
+        String codigo = scanner.nextLine();
+
+        asignatura nuevaAsignatura = new asignatura();
+        nuevaAsignatura.setNombre(nombre);
+        nuevaAsignatura.setCodigo(codigo);
+        asignaturaService.guardarAsignatura(nuevaAsignatura);
+        System.out.println("Asignatura agregada con éxito.");
+    }
+
+    private void listarTiposAula() {
+        System.out.println("\nListado de Tipos de Aula:");
+        tipoAulaService.listarTiposAula().forEach(ta -> 
+            System.out.println(ta.getId() + ": " + ta.getNombre()));
+    }
+
+    private void agregarTipoAula() {
+        System.out.println("\nAgregar nuevo Tipo de Aula:");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+
+        tipoAula nuevoTipoAula = new tipoAula();
+        nuevoTipoAula.setNombre(nombre);
+        tipoAulaService.guardarTipoAula(nuevoTipoAula);
+        System.out.println("Tipo de Aula agregado con éxito.");
+    }
+
+    private void listarTiposPermiso() {
+        System.out.println("\nListado de Tipos de Permiso:");
+        tipoPermisoService.listarTiposPermiso().forEach(tp -> 
+            System.out.println(tp.getId() + ": " + tp.getNombre()));
+    }
+
+    private void agregarTipoPermiso() {
+        System.out.println("\nAgregar nuevo Tipo de Permiso:");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+
+        tipoPermiso nuevoTipoPermiso = new tipoPermiso();
+        nuevoTipoPermiso.setNombre(nombre);
+        tipoPermisoService.guardarTipoPermiso(nuevoTipoPermiso);
+        System.out.println("Tipo de Permiso agregado con éxito.");
+    }
+
+    private void listarCarreras() {
+        System.out.println("\nListado de Carreras:");
+        carreraService.listarCarreras().forEach(c -> 
+            System.out.println(c.getId() + ": " + c.getNombre()));
+    }
+
+    private void agregarCarrera() {
+        System.out.println("\nAgregar nueva Carrera:");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+
+        carrera nuevaCarrera = new carrera();
+        nuevaCarrera.setNombre(nombre);
+        carreraService.guardarCarrera(nuevaCarrera);
+        System.out.println("Carrera agregada con éxito.");
+    }
+
+    private void verAulasOcupadas() {
+        System.out.println("\nA ulas Ocupadas:");
+        List<horario> horariosActuales = horarioService.listarHorarios();
+        horariosActuales.forEach(h -> {
+            aula aulaOcupada = aulaService.obtenerAulaPorId(h.getAulaId()).orElse(null);
+            if (aulaOcupada != null) {
+                System.out.println("Aula: " + aulaOcupada.getNombre() + 
+                                 " - Día: " + h.getDia() + 
+                                 " - Horario: " + h.getHoraInicio() + " - " + h.getHoraFin());
+            }
+        });
+    }
+
+    private void verProfesoresAsignaturas() {
+        System.out.println("\nProfesores y sus Asignaturas:");
+        profesorAsignaturaService.listarProfesoresAsignaturas().forEach(pa -> {
+            persona profesor = personaService.obtenerPersonaPorId(pa.getProfesorId()).orElse(null);
+            asignatura asignatura = asignaturaService.obtenerAsignaturaPorId(pa.getAsignaturaId()).orElse(null);
+            if (profesor != null && asignatura != null) {
+                System.out.println("Profesor: " + profesor.getNombre() + " " + profesor.getApellido() + 
+                                 " - Asignatura: " + asignatura.getNombre());
+            }
+        });
     }
 }
