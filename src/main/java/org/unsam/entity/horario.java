@@ -38,6 +38,10 @@ public class horario {
     private Long asignaturaId;
 
     // Getters y setters
+    public Long getId() {
+        return aulaId;
+    }    
+    
     public String getDia() {
         return dia;
     }
@@ -77,4 +81,5 @@ public class horario {
     public void setAsignaturaId(Long asignaturaId) {
         this.asignaturaId = asignaturaId;
     }
+
 }

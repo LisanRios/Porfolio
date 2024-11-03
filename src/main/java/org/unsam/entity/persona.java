@@ -34,6 +34,10 @@ public class persona {
     @Column
     private String email;
     
+    public Long getId() {
+        return id;
+    }
+    
     public String getNombre() {
         return this.nombre;
     }
@@ -46,15 +50,15 @@ public class persona {
         return this.email;
     }
 
-    public void setNombre(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setNombre(String newNombre) {
+         this.nombre = newNombre;
     }
 
-    public void setApellido(String apellido) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setApellido(String newApellido) {
+        this.apellido = newApellido;
     }
 
-    public void setEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setEmail(String newEmail) {
+        this.email = newEmail;
     }
 }
