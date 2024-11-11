@@ -1,5 +1,6 @@
 package org.unsam.menu;
 
+import java.time.LocalTime;
 import java.util.Scanner;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,26 +222,59 @@ public class MenuPrueba implements CommandLineRunner {
         }
     }
 
-    private void listarPersonas() {
-        System.out.println("\nListado de Personas:");
-        personaService.listarPersonas().forEach(p -> 
-            System.out.println(p.getId() + ": " + p.getNombre() + " " + p.getApellido()));
-    }
+private void listarPersonas() {
+    System.out.println("\nListado de Personas:");
+    personaService.listarPersonas().forEach(p -> {
+        System.out.println(p.getId() + ": " + p.getNombre() + " " + p.getApellido() + " - Rol: " + p.getRol());
+    });
+}
 
-    private void agregarPersona() {
-        System.out.println("\nAgregar nueva Persona:");
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Apellido: ");
-        String apellido = scanner.next ();
-        scanner.nextLine(); // Consumir el salto de línea
+private void agregarPersona() {
+    System.out.println("\nAgregar nueva Persona:");
+    
+    // Preguntar por el nombre
+    System.out.print("Nombre: ");
+    String nombre = scanner.nextLine();
+    
+    // Preguntar por el apellido
+    System.out.print("Apellido: ");
+    String apellido = scanner.nextLine();
+    
+    // Preguntar por el email
+    System.out.print("Email: ");
+    String email = scanner.nextLine();
 
-        persona nuevaPersona = new persona();
-        nuevaPersona.setNombre(nombre);
-        nuevaPersona.setApellido(apellido);
-        personaService.guardarPersona(nuevaPersona);
-        System.out.println("Persona agregada con éxito.");
-    }
+    // Preguntar por el nombre de usuario
+    System.out.print("Nombre de usuario: ");
+    String nombreUsuario = scanner.nextLine();
+
+    // Preguntar por la contraseña
+    System.out.print("Contraseña: ");
+    String contrasena = scanner.nextLine(); // En una aplicación real, deberías manejar la contraseña de forma segura
+
+    // Listar tipos de permiso
+    System.out.println("\n--- Tipos de Permiso ---");
+    tipoPermisoService.listarTiposPermiso().forEach(tp -> 
+        System.out.println(tp.getId() + ": " + tp.getNombre()));
+
+    // Preguntar al usuario por el ID del tipo de permiso
+    System.out.print("Seleccione el ID del tipo de permiso: ");
+    Long tipoPermisoId = scanner.nextLong();
+    scanner.nextLine(); // Consumir el salto de línea
+
+    // Crear una nueva instancia de persona
+    persona nuevaPersona = new persona();
+    nuevaPersona.setNombre(nombre);
+    nuevaPersona.setApellido(apellido);
+    nuevaPersona.setEmail(email); // Establecer el email
+    nuevaPersona.setUsername(nombreUsuario); // Establecer el nombre de usuario
+    nuevaPersona.setPassword(contrasena); // Establecer la contraseña
+    nuevaPersona.setTipoPermisoId(tipoPermisoId); // Establecer el tipo de permiso
+
+    // Guardar la nueva persona usando el servicio
+    personaService.guardarPersona(nuevaPersona);
+    System.out.println("Persona agregada con éxito.");
+}
 
     private void listarAulas() {
         System.out.println("\nListado de Aulas:");
@@ -265,22 +299,30 @@ public class MenuPrueba implements CommandLineRunner {
             System.out.println(h.getId() + ": " + h.getDia() + " - " + h.getHoraInicio() + " - " + h.getHoraFin()));
     }
 
-    private void agregarHorario() {
-        System.out.println("\nAgregar nuevo Horario:");
-        System.out.print("Día: ");
-        String dia = scanner.nextLine();
-        System.out.print("Hora Inicio: ");
-        String horaInicio = scanner.nextLine();
-        System.out.print("Hora Fin: ");
-        String horaFin = scanner.nextLine();
+private void agregarHorario() {
+    System.out.println("\nAgregar nuevo Horario:");
+    System.out.print("Día: ");
+    String dia = scanner.nextLine();
+    System.out.print("Hora Inicio (formato HH:mm): ");
+    String horaInicioStr = scanner.nextLine();
+    System.out.print("Hora Fin (formato HH:mm): ");
+    String horaFinStr = scanner.nextLine();
 
-        horario nuevoHorario = new horario();
-        nuevoHorario.setDia(dia);
-        nuevoHorario.setHoraInicio(horaInicio);
-        nuevoHorario.setHoraFin(horaFin);
+    LocalTime horaInicio = LocalTime.parse(horaInicioStr);
+    LocalTime horaFin = LocalTime.parse(horaFinStr);
+
+    horario nuevoHorario = new horario();
+    nuevoHorario.setDia(dia);
+    nuevoHorario.setHoraInicio(horaInicio);
+    nuevoHorario.setHoraFin(horaFin);
+    
+    try {
         horarioService.guardarHorario(nuevoHorario);
         System.out.println("Horario agregado con éxito.");
+    } catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage()); // Muestra el mensaje de error
     }
+}
 
     private void listarAsignaturas() {
         System.out.println("\nListado de Asignaturas:");
